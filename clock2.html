@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta charset="utf-8">
+    </head>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background: #fff;
+            color: #000;
+        }
+        #clock {
+            font-size: 150pt;
+            margin-top: 120pt;
+            margin-bottom: 0;
+        }
+        a {
+            color: #00f;
+        }
+        a:active {
+            color: #f00;
+        }
+    </style>
+    <body>
+        <noscript>
+            <p>Please turn on JavaScript to continue.</p>
+        </noscript>
+        <p id="clock"></p>
+        <p id="timedate"></p>
+        <p>
+            <a href="#" id="h24h" onclick="toggle24h()" title="24h">24h</a>&nbsp;
+            <a href="#" onclick="fullscreen()" title="Fullscreen">&#x26f6;</a>
+        </p>
+    </body>
+    <script>
+        let clock = document.getElementById("clock");
+        let timedate = document.getElementById("timedate");
+
+        setInterval(() => {
+            let date = new Date();
+
+            let hour = (((h24h.innerText == "24h") ? ((date.getHours() > 12) ? date.getHours() - 12 : date.getHours()) : date.getHours()) + "").padStart(2, "0");
+            hour = (hour == 0) ? 12 : hour;
+            let min = (date.getMinutes() + "").padStart(2, "0");
+            let sec = (date.getSeconds() + "").padStart(2, "0");
+            let ampm = (date.getHours() >= 12) ? "PM" : "AM";
+
+            clock.innerText = hour + ":" + min + ":" + sec + ((h24h.innerText == "24h") ? " " + ampm : "");
+            document.title = hour + ":" + min + ((h24h.innerText == "24h") ? " " + ampm : "");
+
+            let year = date.getFullYear();
+            let month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"][date.getMonth()];
+            let day = date.getDate();
+            let dayofweek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][date.getDay()];
+
+            timedate.innerText = dayofweek + ", " + month + " " + day + " " + year;
+        }, 100);
+
+        function fullscreen() {
+            document.documentElement.requestFullscreen();
+        }
+
+        let h24h = document.getElementById("h24h");
+
+        function toggle24h(src) {
+            h24h.innerText = (h24h.innerText == "24h") ? "12h" : "24h";
+            h24h.title = h24h.innerText;
+            localStorage.setItem("h24h", h24h.innerText);
+        }
+
+        if (localStorage.getItem("h24h") == "12h") {
+            toggle24h();
+        }
+    </script>
+</html>
