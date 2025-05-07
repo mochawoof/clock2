@@ -30,6 +30,7 @@
         <p id="clock"></p>
         <p id="timedate"></p>
         <p>
+            <a href="#" id="showseconds" onclick="toggleshowseconds()" title="No Seconds">No Seconds</a>&nbsp;
             <a href="#" id="h24h" onclick="toggle24h()" title="24h">24h</a>&nbsp;
             <a href="#" onclick="fullscreen()" title="Fullscreen">&#x26f6;</a>
         </p>
@@ -37,6 +38,9 @@
     <script>
         let clock = document.getElementById("clock");
         let timedate = document.getElementById("timedate");
+
+        let h24h = document.getElementById("h24h");
+        let showseconds = document.getElementById("showseconds");
 
         setInterval(() => {
             let date = new Date();
@@ -47,7 +51,7 @@
             let sec = (date.getSeconds() + "").padStart(2, "0");
             let ampm = (date.getHours() >= 12) ? "PM" : "AM";
 
-            clock.innerText = hour + ":" + min + ":" + sec + ((h24h.innerText == "24h") ? " " + ampm : "");
+            clock.innerText = hour + ":" + min + ((showseconds.innerText == "No Seconds") ? ":" + sec : "") + ((h24h.innerText == "24h") ? " " + ampm : "");
             document.title = hour + ":" + min + ((h24h.innerText == "24h") ? " " + ampm : "");
 
             let year = date.getFullYear();
@@ -62,16 +66,23 @@
             document.documentElement.requestFullscreen();
         }
 
-        let h24h = document.getElementById("h24h");
-
-        function toggle24h(src) {
+        function toggle24h() {
             h24h.innerText = (h24h.innerText == "24h") ? "12h" : "24h";
             h24h.title = h24h.innerText;
             localStorage.setItem("h24h", h24h.innerText);
         }
 
+        function toggleshowseconds() {
+            showseconds.innerText = (showseconds.innerText == "No Seconds") ? "Seconds" : "No Seconds";
+            showseconds.title = showseconds.innerText;
+            localStorage.setItem("showseconds", showseconds.innerText);
+        }
+
         if (localStorage.getItem("h24h") == "12h") {
             toggle24h();
+        }
+        if (localStorage.getItem("showseconds") == "Seconds") {
+            toggleshowseconds();
         }
     </script>
 </html>
