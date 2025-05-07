@@ -30,7 +30,6 @@
         <p id="clock"></p>
         <p id="timedate"></p>
         <p>
-            <a href="#" id="showseconds" onclick="toggleshowseconds()" title="Hide Seconds">Hide Seconds</a>&nbsp;
             <a href="#" id="h24h" onclick="toggle24h()" title="24h">24h</a>&nbsp;
             <a href="#" onclick="fullscreen()" title="Fullscreen">&#x26f6;</a>
         </p>
@@ -42,47 +41,8 @@
         let h24h = document.getElementById("h24h");
         let showseconds = document.getElementById("showseconds");
 
-        setInterval(() => {
-            let date = new Date();
-
-            let hour = (((h24h.innerText == "24h") ? ((date.getHours() > 12) ? date.getHours() - 12 : date.getHours()) : date.getHours()) + "").padStart(2, "0");
-            hour = (hour == 0) ? 12 : hour;
-            let min = (date.getMinutes() + "").padStart(2, "0");
-            let sec = (date.getSeconds() + "").padStart(2, "0");
-            let ampm = (date.getHours() >= 12) ? "PM" : "AM";
-
-            clock.innerText = hour + ((showseconds.innerText == "Hide Seconds") ? ":" : ((sec % 2 == 0) ? ":" : " ")) + min + ((showseconds.innerText == "Hide Seconds") ? ":" + sec : "") + ((h24h.innerText == "24h") ? " " + ampm : "");
-            document.title = hour + ":" + min + ((h24h.innerText == "24h") ? " " + ampm : "");
-
-            let year = date.getFullYear();
-            let month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"][date.getMonth()];
-            let day = date.getDate();
-            let dayofweek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][date.getDay()];
-
-            timedate.innerText = dayofweek + ", " + month + " " + day + " " + year;
-        }, 100);
-
         function fullscreen() {
             document.documentElement.requestFullscreen();
-        }
-
-        function toggle24h() {
-            h24h.innerText = (h24h.innerText == "24h") ? "12h" : "24h";
-            h24h.title = h24h.innerText;
-            localStorage.setItem("h24h", h24h.innerText);
-        }
-
-        function toggleshowseconds() {
-            showseconds.innerText = (showseconds.innerText == "Hide Seconds") ? "Show Seconds" : "Hide Seconds";
-            showseconds.title = showseconds.innerText;
-            localStorage.setItem("showseconds", showseconds.innerText);
-        }
-
-        if (localStorage.getItem("h24h") == "12h") {
-            toggle24h();
-        }
-        if (localStorage.getItem("showseconds") == "Show Seconds") {
-            toggleshowseconds();
         }
     </script>
 </html>
