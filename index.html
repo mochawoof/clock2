@@ -30,7 +30,7 @@
         <p id="clock"></p>
         <p id="timedate"></p>
         <p>
-            <a href="#" id="showseconds" onclick="toggleshowseconds()" title="No Seconds">No Seconds</a>&nbsp;
+            <a href="#" id="showseconds" onclick="toggleshowseconds()" title="Hide Seconds">Hide Seconds</a>&nbsp;
             <a href="#" id="h24h" onclick="toggle24h()" title="24h">24h</a>&nbsp;
             <a href="#" onclick="fullscreen()" title="Fullscreen">&#x26f6;</a>
         </p>
@@ -51,7 +51,7 @@
             let sec = (date.getSeconds() + "").padStart(2, "0");
             let ampm = (date.getHours() >= 12) ? "PM" : "AM";
 
-            clock.innerText = hour + ":" + min + ((showseconds.innerText == "No Seconds") ? ":" + sec : "") + ((h24h.innerText == "24h") ? " " + ampm : "");
+            clock.innerText = hour + ((showseconds.innerText == "Hide Seconds") ? ":" : ((sec % 2 == 0) ? ":" : " ")) + min + ((showseconds.innerText == "Hide Seconds") ? ":" + sec : "") + ((h24h.innerText == "24h") ? " " + ampm : "");
             document.title = hour + ":" + min + ((h24h.innerText == "24h") ? " " + ampm : "");
 
             let year = date.getFullYear();
@@ -73,7 +73,7 @@
         }
 
         function toggleshowseconds() {
-            showseconds.innerText = (showseconds.innerText == "No Seconds") ? "Seconds" : "No Seconds";
+            showseconds.innerText = (showseconds.innerText == "Hide Seconds") ? "Show Seconds" : "Hide Seconds";
             showseconds.title = showseconds.innerText;
             localStorage.setItem("showseconds", showseconds.innerText);
         }
@@ -81,7 +81,7 @@
         if (localStorage.getItem("h24h") == "12h") {
             toggle24h();
         }
-        if (localStorage.getItem("showseconds") == "Seconds") {
+        if (localStorage.getItem("showseconds") == "Show Seconds") {
             toggleshowseconds();
         }
     </script>
